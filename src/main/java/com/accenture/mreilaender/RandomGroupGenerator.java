@@ -19,7 +19,6 @@ import java.net.URL;
 public class RandomGroupGenerator extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(MainController.FXML_RESOURCE);
-        Parent tabRoot = FXMLLoader.load(TabController.FXML_RESOURCE);
 
         stage.setTitle("Random Group Generator");
         stage.setScene(new Scene(root, 800, 600));

@@ -1,5 +1,6 @@
 package com.accenture.mreilaender.controller;
 
+import com.accenture.mreilaender.model.FileManager;
 import com.accenture.mreilaender.model.tabPane.TabHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +12,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import org.apache.commons.lang.exception.ExceptionUtils;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,23 +27,25 @@ public class MainController implements Initializable {
     @FXML
     private TabPane tabPane;
     private TabHandler tabHandler;
-    private Stage mainStage;
 
-    private String OPEN_DIALOG_TITLE = "Open file...";
-
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // setup tabs
-        this.tabHandler = new TabHandler(tabPane);
+        tabHandler = new TabHandler(tabPane);
     }
 
     @FXML
     protected void addNewTab() {
-        tabHandler.addNewTab(new Tab("New Tab"));
+        tabHandler.addTab(false);
     }
 
     @FXML
     protected void onOpen() {
-        this.tabHandler.loadCSV();
+        try {
+            tabHandler.setupTab(FileManager.chooseFile(this.tabPane.getScene()), tabHandler.addTab(true));
+        } catch (IOException e) {
+            showExceptionDialog(e);
+        }
     }
 
     public Alert showExceptionDialog(Exception e) {
@@ -60,9 +65,5 @@ public class MainController implements Initializable {
         alert.getDialogPane().setExpandableContent(exceptionField);
         alert.getDialogPane().setPrefSize(800, 600);
         return alert;
-    }
-
-    public void setMainStage(Stage mainStage) {
-        this.mainStage = mainStage;
     }
 }
