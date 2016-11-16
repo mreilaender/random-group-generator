@@ -1,11 +1,12 @@
 package com.accenture.mreilaender;
 
+import com.accenture.mreilaender.controller.MainController;
+import com.accenture.mreilaender.controller.TabController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -17,21 +18,12 @@ import java.net.URL;
  */
 public class RandomGroupGenerator extends Application {
     public void start(Stage stage) throws Exception {
-        URL main = RandomGroupGenerator.class.getClassLoader().getResource("com.accenture.mreilaender/main.fxml");
-        URL tab = RandomGroupGenerator.class.getClassLoader().getResource("com.accenture.mreilaender/tab.fxml");
-        Parent root = FXMLLoader.load(main);
-        Parent tabRoot = FXMLLoader.load(tab);
+        Parent root = FXMLLoader.load(MainController.FXML_RESOURCE);
+        Parent tabRoot = FXMLLoader.load(TabController.FXML_RESOURCE);
 
-        stage.setTitle("FXML Welcome");
+        stage.setTitle("Random Group Generator");
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
-
-
-        Scene scene = root.getScene();
-        TabPane tabPane = (TabPane) scene.lookup("#tabPane");
-
-
-        BorderPane content = (BorderPane) tabRoot;
     }
 
 }
