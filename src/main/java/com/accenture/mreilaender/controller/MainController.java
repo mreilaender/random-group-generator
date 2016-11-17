@@ -10,9 +10,11 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.stage.Stage;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,7 +24,8 @@ import java.util.ResourceBundle;
  * @version 11/15/16
  */
 public class MainController implements Initializable {
-    public static URL FXML_RESOURCE = TabController.class.getClassLoader().getResource("com.accenture.mreilaender/main.fxml");
+    public static URL FXML_RESOURCE = TabController.class.getClassLoader().getResource("main.fxml");
+    private final static Logger logger = LogManager.getLogger(MainController.class);
 
     @FXML
     private TabPane tabPane;
@@ -41,10 +44,17 @@ public class MainController implements Initializable {
 
     @FXML
     protected void onOpen() {
+        Tab tab = null;
         try {
-            tabHandler.setupTab(FileManager.chooseFile(this.tabPane.getScene()), tabHandler.addTab(true));
+            File file = FileManager.chooseFile(this.tabPane.getScene());
+            if (file==null)
+                return;
+            tab = tabHandler.addTab(true);
+            tabHandler.setupTab(file, tab);
         } catch (IOException e) {
-            showExceptionDialog(e);
+            logger.error(e);
+            tabHandler.removeTab(tab);
+            showExceptionDialog(e).show();
         }
     }
 
@@ -63,7 +73,7 @@ public class MainController implements Initializable {
         GridPane.setHgrow(exceptionField, Priority.ALWAYS);
 
         alert.getDialogPane().setExpandableContent(exceptionField);
-        alert.getDialogPane().setPrefSize(800, 600);
+        alert.getDialogPane().setPrefSize(1000, 600);
         return alert;
     }
 }

@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 /**
  * Handles the tableView and all it's columns
@@ -26,14 +27,21 @@ public class PersonTableModel {
 
     public void initialize() {
         firtNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
-        lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+        lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
         tableView.getColumns().addAll(firtNameColumn, lastNameColumn);
         tableView.setItems(data);
-        tableView.setItems(data);
 
+        // Set columns editable
+        firtNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        lastNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
     public void addPerson(Person person) {
         this.data.add(person);
+    }
+
+    public Person getRandomPerson() {
+        int index = (int)(Math.random()*data.size());
+        return data.get(index);
     }
 }

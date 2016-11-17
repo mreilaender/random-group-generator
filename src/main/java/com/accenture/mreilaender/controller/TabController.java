@@ -5,6 +5,8 @@ import com.accenture.mreilaender.model.tabPane.TabHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 
@@ -16,7 +18,7 @@ import java.util.ResourceBundle;
  * @version 11/15/16
  */
 public class TabController implements Initializable {
-    public static final URL FXML_RESOURCE = TabController.class.getClassLoader().getResource("com.accenture.mreilaender/tab.fxml");
+    public static final URL FXML_RESOURCE = TabController.class.getClassLoader().getResource("tab.fxml");
 
     private static Scene scene;
 
@@ -25,6 +27,12 @@ public class TabController implements Initializable {
 
     @FXML
     private TableView<Person> tableView;
+
+    @FXML
+    private Button generateRandomGroup;
+
+    @FXML
+    private Label textFieldLabel;
 
     private TabHandler tabHandler;
 
@@ -35,5 +43,13 @@ public class TabController implements Initializable {
 
     public TableView<Person> getTableView() {
         return tableView;
+    }
+
+    public Button getGenerateRandomGroup() {
+        return generateRandomGroup;
+    }
+
+    public Label getTextFieldLabel() {
+        return textFieldLabel;
     }
 }

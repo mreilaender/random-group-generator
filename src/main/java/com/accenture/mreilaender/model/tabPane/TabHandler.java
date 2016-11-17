@@ -3,8 +3,6 @@ package com.accenture.mreilaender.model.tabPane;
 import com.accenture.mreilaender.controller.MainController;
 import com.accenture.mreilaender.controller.TabController;
 import com.accenture.mreilaender.entities.Person;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import org.apache.commons.csv.CSVFormat;
@@ -18,7 +16,6 @@ import java.io.IOException;
  * @version 11/15/16
  */
 public class TabHandler {
-    public static final String addTabLabel = "+";
     private TabPane tabPane;
 
     private ButtonType openInNewTab, openInCurrentTab, cancel;
@@ -47,8 +44,8 @@ public class TabHandler {
      * Add new tab and select it
      * @return Index of the new Tab
      */
-    public Tab addTab(boolean confirmDialog) {
-        if (!confirmDialog) {
+    public Tab addTab(boolean showConfirmDialog) {
+        if (!showConfirmDialog) {
             Tab tab = new Tab();
             tabPane.getTabs().add(tabPane.getSelectionModel().getSelectedIndex(), tab);
             tabPane.getSelectionModel().select(tab);
@@ -70,15 +67,15 @@ public class TabHandler {
         return tab;
     }
 
+    public void removeTab(Tab tab) {
+        tabPane.getTabs().remove(tab);
+    }
+
     public void setupTab(File file, Tab tab) throws IOException {
         tab.setText(file.getName());
 
         FXMLLoader fxmlLoader = new FXMLLoader(TabController.FXML_RESOURCE);
-        try {
-            tab.setContent(fxmlLoader.load());
-        } catch (IOException e) {
-            ((MainController) fxmlLoader.getController()).showExceptionDialog(e);
-        }
+        tab.setContent(fxmlLoader.load());
 
         TabController tabController = fxmlLoader.getController();
         TableView<Person> tableView = tabController.getTableView();
@@ -94,6 +91,7 @@ public class TabHandler {
             Person person = new Person(record.get(0), record.get(1));
             personTableModel.addPerson(person);
         }
+        tableView.setEditable(true);
         personTableModel.initialize();
     }
 }
