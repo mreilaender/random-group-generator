@@ -5,9 +5,7 @@ import com.accenture.mreilaender.model.tabPane.TabHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.net.URL;
@@ -18,7 +16,7 @@ import java.util.ResourceBundle;
  * @version 11/15/16
  */
 public class TabController implements Initializable {
-    public static final URL FXML_RESOURCE = TabController.class.getClassLoader().getResource("com.accenture.mreilaender/tab1.fxml");
+    public static final URL FXML_RESOURCE = TabController.class.getClassLoader().getResource("com.accenture.mreilaender/tab.fxml");
 
     private static Scene scene;
 
