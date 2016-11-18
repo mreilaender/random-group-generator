@@ -1,16 +1,12 @@
 package com.accenture.mreilaender.controller;
 
-import com.accenture.mreilaender.model.FileManager;
+import com.accenture.mreilaender.DialogManager;
 import com.accenture.mreilaender.model.tabPane.TabHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,8 +20,12 @@ import java.util.ResourceBundle;
  * @version 11/15/16
  */
 public class MainController implements Initializable {
+    public final static String TAG = MainController.class.getSimpleName();
+
     public static URL FXML_RESOURCE = TabController.class.getClassLoader().getResource("main.fxml");
     private final static Logger logger = LogManager.getLogger(MainController.class);
+
+    private static Scene scene;
 
     @FXML
     private TabPane tabPane;
@@ -46,7 +46,7 @@ public class MainController implements Initializable {
     protected void onOpen() {
         Tab tab = null;
         try {
-            File file = FileManager.chooseFile(this.tabPane.getScene());
+            File file = DialogManager.showChooseFileDialog(this.tabPane.getScene());
             if (file==null)
                 return;
             tab = tabHandler.addTab(true);
@@ -54,26 +54,15 @@ public class MainController implements Initializable {
         } catch (IOException e) {
             logger.error(e);
             tabHandler.removeTab(tab);
-            showExceptionDialog(e).show();
+            DialogManager.showExceptionDialog(e).show();
         }
     }
 
-    public Alert showExceptionDialog(Exception e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(e.getClass().getName());
-            alert.setContentText(e.getMessage());
+    public static Scene getScene() {
+        return scene;
+    }
 
-        TextArea exceptionField = new TextArea(ExceptionUtils.getStackTrace(e));
-            exceptionField.setEditable(false);
-            exceptionField.setWrapText(true);
-            exceptionField.setMaxHeight(Double.MAX_VALUE);
-            exceptionField.setMaxWidth(Double.MAX_VALUE);
-
-        GridPane.setVgrow(exceptionField, Priority.ALWAYS);
-        GridPane.setHgrow(exceptionField, Priority.ALWAYS);
-
-        alert.getDialogPane().setExpandableContent(exceptionField);
-        alert.getDialogPane().setPrefSize(1000, 600);
-        return alert;
+    public static void setScene(Scene scene) {
+        MainController.scene = scene;
     }
 }

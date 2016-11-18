@@ -1,6 +1,5 @@
 package com.accenture.mreilaender.model.tabPane;
 
-import com.accenture.mreilaender.controller.MainController;
 import com.accenture.mreilaender.controller.TabController;
 import com.accenture.mreilaender.entities.Person;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +9,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * @author manuel
@@ -20,6 +20,13 @@ public class TabHandler {
 
     private ButtonType openInNewTab, openInCurrentTab, cancel;
     private Alert openConfirmation;
+
+    private static HashMap<Integer, PersonTableModel> models;
+
+    static {
+        models = new HashMap<>();
+        System.out.println("Initialize HashMap");
+    }
 
     public TabHandler(TabPane tabPane) {
         this.tabPane = tabPane;
@@ -45,25 +52,27 @@ public class TabHandler {
      * @return Index of the new Tab
      */
     public Tab addTab(boolean showConfirmDialog) {
-        if (!showConfirmDialog) {
-            Tab tab = new Tab();
-            tabPane.getTabs().add(tabPane.getSelectionModel().getSelectedIndex(), tab);
-            tabPane.getSelectionModel().select(tab);
-            return tab;
-        }
-        ButtonType result = showOpenConfirmationDialog();
-        Tab tab = null;
+        ButtonType result = null;
         int index = 0;
+        Tab tab = null;
+
+        // Show confirm dialog
+        if (showConfirmDialog)
+            result = showOpenConfirmationDialog();
+
         if (result == openInNewTab) {
             tab = new Tab();
             index = tabPane.getSelectionModel().getSelectedIndex() + 1;
         } else if (result == openInCurrentTab) {
             tab = this.tabPane.getSelectionModel().getSelectedItem();
-        } else {
-            return tab;
+        } else if (result == null) {
+            tab = new Tab();
+            index = tabPane.getSelectionModel().getSelectedIndex();
         }
         tabPane.getTabs().add(index, tab);
         tabPane.getSelectionModel().select(tab);
+        PersonTableModel tableModel = new PersonTableModel();
+        models.put(tabPane.getSelectionModel().getSelectedIndex(), tableModel);
         return tab;
     }
 
@@ -72,6 +81,8 @@ public class TabHandler {
     }
 
     public void setupTab(File file, Tab tab) throws IOException {
+        if (!tabPane.getTabs().contains(tab))
+            return;
         tab.setText(file.getName());
 
         FXMLLoader fxmlLoader = new FXMLLoader(TabController.FXML_RESOURCE);
@@ -86,12 +97,16 @@ public class TabHandler {
                 .withDelimiter(';')
                 .parse(new FileReader(file));
 
-        PersonTableModel personTableModel = new PersonTableModel(tableView);
+        PersonTableModel tmp = getPersonTableModel(tabPane.getSelectionModel().getSelectedIndex());
         for (CSVRecord record:records) {
             Person person = new Person(record.get(0), record.get(1));
-            personTableModel.addPerson(person);
+            tmp.addPerson(person);
         }
         tableView.setEditable(true);
-        personTableModel.initialize();
+        tmp.initialize(tableView);
+    }
+
+    public static PersonTableModel getPersonTableModel(int index) {
+        return models.get(index);
     }
 }
