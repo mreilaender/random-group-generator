@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.accenture.mreilaender.controller.TabController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.accenture.mreilaender.controller.TabView">
    <center>
       <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
@@ -25,7 +25,7 @@
               </rowConstraints>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Größe der Gruppe" />
-                  <TextField fx:id="groupSize" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+                  <TextField fx:id="groupSize" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#groupSizeChanged" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
