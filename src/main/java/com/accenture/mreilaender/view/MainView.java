@@ -25,8 +25,6 @@ public class MainView implements FxmlView<MainViewModel>, Initializable {
     private final static Logger logger = LogManager.getLogger(MainView.class);
     private static Scene scene;
 
-    private TabHandler tabHandler;
-
     private MainViewModel mainViewModel;
 
     @FXML
@@ -35,7 +33,6 @@ public class MainView implements FxmlView<MainViewModel>, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // setup tabs
-        tabHandler = new TabHandler(tabPane);
         mainViewModel = new MainViewModel();
     }
 
@@ -77,7 +74,7 @@ public class MainView implements FxmlView<MainViewModel>, Initializable {
             tabPane.getTabs().add(index, tab);
         } catch (IOException e) {
             logger.error(e);
-            tabHandler.removeTab(tab);
+            tabPane.getTabs().remove(tab);
             DialogManager.showExceptionDialog(e).show();
         }
     }
