@@ -2,11 +2,9 @@ package com.accenture.mreilaender.model.tabPane;
 
 import com.accenture.mreilaender.entities.Person;
 import com.accenture.mreilaender.exceptions.NoDataLoadedException;
-import com.accenture.mreilaender.model.Randomizable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.util.ArrayList;
@@ -16,32 +14,48 @@ import java.util.ArrayList;
  * @author manuel
  * @version 11/16/16
  */
-public class PersonTableModel implements Randomizable<Person> {
-    private TableColumn<Person, String> firtNameColumn;
+public class PersonTableModel implements TableModel<Person> {
+    private TableColumn<Person, String> firstNameColumn;
     private TableColumn<Person, String> lastNameColumn;
     private ObservableList<Person> data;
     private ArrayList<Integer> randomIndexes;
+    private ObservableList<TableColumn<Person, ?>> columns;
 
     public PersonTableModel() {
-        this.firtNameColumn = new TableColumn<>("First Name");
+        this.firstNameColumn = new TableColumn<>("First Name");
         this.lastNameColumn = new TableColumn<>("Last Name");
         this.data = FXCollections.observableArrayList();
         this.randomIndexes = new ArrayList<>();
+
+        // Save all columns
+        columns = FXCollections.observableArrayList();
+            columns.add(firstNameColumn);
+            columns.add(lastNameColumn);
     }
 
-    public void initialize(TableView<Person> tableView) {
-        firtNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+    @Override
+    public void initialize() {
+        firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
-        tableView.getColumns().addAll(firtNameColumn, lastNameColumn);
-        tableView.setItems(data);
 
         // Set columns editable
-        firtNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        firstNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         lastNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
-    public void addPerson(Person person) {
+    @Override
+    public void add(Person person) {
         this.data.add(person);
+    }
+
+    @Override
+    public ObservableList<Person> getData() {
+        return data;
+    }
+
+    @Override
+    public ObservableList<TableColumn<Person, ?>> getColumns() {
+        return columns;
     }
 
     @Override
@@ -54,9 +68,5 @@ public class PersonTableModel implements Randomizable<Person> {
         } catch (IndexOutOfBoundsException e) {
             throw new NoDataLoadedException("No data has been loaded to the table yet");
         }
-    }
-
-    public ObservableList<Person> getData() {
-        return data;
     }
 }
