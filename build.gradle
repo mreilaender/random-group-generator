@@ -53,6 +53,7 @@ jfx {
     mainClass = 'com.accenture.mreilaender.Main'
     jfxMainAppJarName = "random-group-generator.jar"
     addPackagerJar = true
+    copyAdditionalAppResourcesToJar = true
     // minimal requirement for jfxNative-task
     vendor = 'Manuel Reilaender'
 }

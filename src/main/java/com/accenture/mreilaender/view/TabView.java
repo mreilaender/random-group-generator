@@ -1,15 +1,31 @@
 package com.accenture.mreilaender.view;
 
 import com.accenture.mreilaender.entities.Person;
+import com.accenture.mreilaender.model.GroupViewModel;
 import com.accenture.mreilaender.model.TabViewModel;
+import com.accenture.mreilaender.model.groupbuilder.AbstractGroupGenerator;
+import com.accenture.mreilaender.model.groupbuilder.FixedGroupSizeGenerator;
+import com.accenture.mreilaender.model.tabPane.PersonTableModel;
+import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
+import de.saxsys.mvvmfx.ViewTuple;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -17,9 +33,7 @@ import java.util.ResourceBundle;
  * @version 11/15/16
  */
 public class TabView implements FxmlView<TabViewModel>, Initializable {
-    public static final URL FXML_RESOURCE = TabView.class.getClassLoader().getResource("com/accenture/mreilaender/view/TabView.fxml");
-    //final static Logger LOGGER = LogManager.getLogger(TabView.class);
-    private static Scene scene;
+    final static Logger LOGGER = LogManager.getLogger(TabView.class);
 
     @InjectViewModel
     private TabViewModel tabViewModel;
@@ -39,6 +53,8 @@ public class TabView implements FxmlView<TabViewModel>, Initializable {
     @FXML
     private Label textFieldLabel;
 
+    private ViewTuple<GroupView, GroupViewModel> groupView;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Get TabPane from MainView
@@ -47,25 +63,10 @@ public class TabView implements FxmlView<TabViewModel>, Initializable {
 
     @FXML
     public void generateRandomGroup() {
-        /*
-        groupOutput.clear();
-        ArrayList<Person> persons = new ArrayList<>();
-        try {
-            PersonTableModel personTableModel = TabHandler.getPersonTableModel(tabPane.getSelectionModel().getSelectedIndex());
-            int numberRandom = Integer.parseInt(groupSize.getText());
-            for (; numberRandom != 0; --numberRandom)
-                persons.add(personTableModel.getRandom());
-        } catch (NoDataLoadedException e) {
-            //LOGGER.error(e);
-            DialogManager.showExceptionDialog(e).show();
-        } catch (NumberFormatException e) {
-            IllegalArgumentException tmp = new IllegalArgumentException("Invalid group size!");
-            //LOGGER.error(tmp);
-            DialogManager.showExceptionDialog(tmp).show();
-        }
-        for (Person person:persons)
-            groupOutput.setText(groupOutput.getText() + person.getFirstName() + ", ");
-           */
+        // Fill group generator with data
+        AbstractGroupGenerator<Person> groupGenerator = new FixedGroupSizeGenerator<>(Integer.parseInt(groupSize.getText()));
+        tableView.getItems().forEach(groupGenerator::add);
+        tabViewModel.setupGroupView(groupGenerator);
     }
 
     public TableView<Person> getTableView() {

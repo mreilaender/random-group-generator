@@ -34,6 +34,7 @@ public class MainViewModel implements ViewModel {
     public void setupTab(File file, Tab tab, int index) throws IOException {
         views.put(index, FluentViewLoader.fxmlView(TabView.class).load());
         tab.setContent(views.get(index).getView());
+        tab.setText(file.getName());
         loadData(file, index);
     }
 

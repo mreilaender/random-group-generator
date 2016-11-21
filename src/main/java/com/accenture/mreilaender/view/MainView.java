@@ -66,8 +66,6 @@ public class MainView implements FxmlView<MainViewModel>, Initializable {
             if (index == -1)
                 return;
 
-            tab.setText(file.getName());
-
             mainViewModel.setupTab(file, tab, index);
             tabPane.getTabs().add(index, tab);
         } catch (IOException e) {

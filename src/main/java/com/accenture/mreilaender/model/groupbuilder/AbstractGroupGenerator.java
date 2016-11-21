@@ -7,6 +7,6 @@ import java.util.List;
  * @version 11/17/16
  */
 public interface AbstractGroupGenerator<T> {
-    List<List<T>> getRandomGroup();
+    List<List<T>> generateRandomGroups();
     void add(T t);
 }
