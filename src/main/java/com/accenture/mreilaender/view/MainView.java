@@ -5,7 +5,6 @@ import com.accenture.mreilaender.model.MainViewModel;
 import de.saxsys.mvvmfx.FxmlView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +22,6 @@ public class MainView implements FxmlView<MainViewModel>, Initializable {
     /* static */
     // private
     private final static Logger logger = LogManager.getLogger(MainView.class);
-    private static Scene scene;
 
     private MainViewModel mainViewModel;
 
@@ -77,13 +75,5 @@ public class MainView implements FxmlView<MainViewModel>, Initializable {
             tabPane.getTabs().remove(tab);
             DialogManager.showExceptionDialog(e).show();
         }
-    }
-
-    public static Scene getScene() {
-        return scene;
-    }
-
-    public static void setScene(Scene scene) {
-        MainView.scene = scene;
     }
 }
