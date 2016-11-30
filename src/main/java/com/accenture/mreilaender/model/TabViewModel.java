@@ -5,6 +5,7 @@ import com.accenture.mreilaender.model.groupbuilder.AbstractGroupGenerator;
 import com.accenture.mreilaender.model.groupbuilder.FixedGroupSizeGenerator;
 import com.accenture.mreilaender.model.tabPane.PersonTableModel;
 import com.accenture.mreilaender.view.GroupView;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.ViewTuple;
@@ -28,21 +29,48 @@ import java.util.List;
 public class TabViewModel implements ViewModel {
 
     private StringProperty groupSize;
-    private BooleanProperty generateButtonDisabled;
+    private StringProperty amountGroups;
+    private BooleanProperty generateButtonDisabled, amountGroupsDisabled, groupSizeDisabled;
 
     public TabViewModel() {
-        this.groupSize = new SimpleStringProperty();
-        this.generateButtonDisabled = new SimpleBooleanProperty(true);
+        groupSize = new SimpleStringProperty();
+        amountGroups = new SimpleStringProperty();
+        generateButtonDisabled = new SimpleBooleanProperty(true);
+        amountGroupsDisabled = new SimpleBooleanProperty(false);
+        groupSizeDisabled = new SimpleBooleanProperty(false);
 
-        generateButtonDisabled.bind(groupSize.isEmpty());
+        //generateButtonDisabled.bind(groupSize.isEmpty());
+        generateButtonDisabled.bind(Bindings.and(amountGroups.isEmpty(), groupSize.isEmpty()));
+        amountGroupsDisabled.bind(groupSize.isNotEmpty());
+        groupSizeDisabled.bind(amountGroups.isNotEmpty());
     }
 
     public void setGroupSize(String groupSize) {
         this.groupSize.set(groupSize);
     }
 
+    public void setAmountGroups(String amountGroups) {
+        this.amountGroups.set(amountGroups);
+    }
+
     public BooleanProperty generateButtonDisabledProperty() {
         return generateButtonDisabled;
+    }
+
+    public boolean isAmountGroupsDisabled() {
+        return amountGroupsDisabled.get();
+    }
+
+    public BooleanProperty amountGroupsDisabledProperty() {
+        return amountGroupsDisabled;
+    }
+
+    public boolean isGroupSizeDisabled() {
+        return groupSizeDisabled.get();
+    }
+
+    public BooleanProperty groupSizeDisabledProperty() {
+        return groupSizeDisabled;
     }
 
     public void setupGroupView(AbstractGroupGenerator<Person> groupGenerator) {

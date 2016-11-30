@@ -1,9 +1,12 @@
 package com.accenture.mreilaender.view;
 
+import com.accenture.mreilaender.DialogManager;
 import com.accenture.mreilaender.entities.Person;
+import com.accenture.mreilaender.exceptions.NoAlgorithmSpecifiedException;
 import com.accenture.mreilaender.model.GroupViewModel;
 import com.accenture.mreilaender.model.TabViewModel;
 import com.accenture.mreilaender.model.groupbuilder.AbstractGroupGenerator;
+import com.accenture.mreilaender.model.groupbuilder.FixedGroupAmountGenerator;
 import com.accenture.mreilaender.model.groupbuilder.FixedGroupSizeGenerator;
 import com.accenture.mreilaender.model.tabPane.PersonTableModel;
 import de.saxsys.mvvmfx.FluentViewLoader;
@@ -42,7 +45,7 @@ public class TabView implements FxmlView<TabViewModel>, Initializable {
     private TextField groupSize;
 
     @FXML
-    private TextField groupOutput;
+    private TextField amountGroups;
 
     @FXML
     private TableView<Person> tableView;
@@ -50,21 +53,26 @@ public class TabView implements FxmlView<TabViewModel>, Initializable {
     @FXML
     private Button generateRandomGroup;
 
-    @FXML
-    private Label textFieldLabel;
-
-    private ViewTuple<GroupView, GroupViewModel> groupView;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Get TabPane from MainView
         generateRandomGroup.disableProperty().bind(tabViewModel.generateButtonDisabledProperty());
+        groupSize.disableProperty().bind(tabViewModel.groupSizeDisabledProperty());
+        amountGroups.disableProperty().bind(tabViewModel.amountGroupsDisabledProperty());
     }
 
     @FXML
     public void generateRandomGroup() {
         // Fill group generator with data
-        AbstractGroupGenerator<Person> groupGenerator = new FixedGroupSizeGenerator<>(Integer.parseInt(groupSize.getText()));
+        AbstractGroupGenerator<Person> groupGenerator;
+        if (!tabViewModel.isAmountGroupsDisabled())
+            groupGenerator = new FixedGroupAmountGenerator<>(Integer.parseInt(amountGroups.getText()));
+        if (!tabViewModel.isGroupSizeDisabled())
+            groupGenerator = new FixedGroupSizeGenerator<>(Integer.parseInt(groupSize.getText()));
+        else {
+            DialogManager.showExceptionDialog(new NoAlgorithmSpecifiedException("No algorithm has been specified"));
+            return;
+        }
         tableView.getItems().forEach(groupGenerator::add);
         tabViewModel.setupGroupView(groupGenerator);
     }
@@ -78,4 +86,8 @@ public class TabView implements FxmlView<TabViewModel>, Initializable {
         tabViewModel.setGroupSize(groupSize.getText());
     }
 
+    @FXML
+    protected void amountGroupsChanged() {
+        tabViewModel.setAmountGroups(amountGroups.getText());
+    }
 }

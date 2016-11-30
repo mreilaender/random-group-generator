@@ -1,7 +1,6 @@
 package com.accenture.mreilaender.model.groupbuilder;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -10,11 +9,11 @@ import java.util.List;
  */
 public class FixedGroupSizeGenerator<T> implements AbstractGroupGenerator<T> {
     private List<T> objects;
-    private int numberGroups;
+    private int groupSize;
 
     public FixedGroupSizeGenerator(int numberGroups) {
         objects = new ArrayList<T>();
-        this.numberGroups = numberGroups;
+        this.groupSize = numberGroups;
     }
 
     @Override
@@ -22,7 +21,7 @@ public class FixedGroupSizeGenerator<T> implements AbstractGroupGenerator<T> {
         List<List<T>> groups = new ArrayList<>();
         for (int i = objects.size() ; i > 0 ; ) {
             List<T> group = new ArrayList<>();
-            for (int j = numberGroups; j > 0; --j) {
+            for (int j = groupSize; j > 0; --j) {
                 if (i == 0)
                     continue;
                 int randomIndex = (int)(Math.random() * i-1);

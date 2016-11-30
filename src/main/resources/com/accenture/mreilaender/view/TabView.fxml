@@ -35,6 +35,17 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </Label>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl der Gruppen" GridPane.rowIndex="1" />
+                  <TextField fx:id="amountGroups" onKeyReleased="#amountGroupsChanged" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <CheckBox mnemonicParsing="false" text="Priorität" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="20.0" />
+                     </GridPane.margin>
+                  </CheckBox>
                </children>
                <opaqueInsets>
                   <Insets />
@@ -43,8 +54,7 @@
                   <Insets left="20.0" top="20.0" />
                </padding>
             </GridPane>
-            <TextField fx:id="groupOutput" layoutX="17.0" layoutY="148.0" prefHeight="26.0" prefWidth="369.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-            <AnchorPane layoutX="181.0" layoutY="110.0" prefHeight="26.0" prefWidth="238.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+            <AnchorPane layoutX="20.0" layoutY="160.0" prefHeight="26.0" prefWidth="238.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                <children>
                   <Button fx:id="generateRandomGroup" alignment="CENTER" mnemonicParsing="false" onAction="#generateRandomGroup" prefHeight="26.0" prefWidth="560.0" text="Generate Random Group" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
                </children>

@@ -13,5 +13,4 @@ public interface TableModel<T> {
     void add(T t);
     ObservableList<T> getData();
     ObservableList<TableColumn<T, ?>> getColumns();
-
 }
