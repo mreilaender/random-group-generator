@@ -20,5 +20,4 @@ public class GroupViewModel implements ViewModel {
         views = new HashMap<>();
     }
 
-
 }

@@ -1,6 +1,5 @@
 package com.accenture.mreilaender.model.tabPane;
 
-import com.accenture.mreilaender.model.groupbuilder.AbstractGroupGenerator;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 

@@ -3,32 +3,19 @@ package com.accenture.mreilaender.view;
 import com.accenture.mreilaender.DialogManager;
 import com.accenture.mreilaender.entities.Person;
 import com.accenture.mreilaender.exceptions.NoAlgorithmSpecifiedException;
-import com.accenture.mreilaender.model.GroupViewModel;
 import com.accenture.mreilaender.model.TabViewModel;
 import com.accenture.mreilaender.model.groupbuilder.AbstractGroupGenerator;
 import com.accenture.mreilaender.model.groupbuilder.FixedGroupAmountGenerator;
 import com.accenture.mreilaender.model.groupbuilder.FixedGroupSizeGenerator;
-import com.accenture.mreilaender.model.tabPane.PersonTableModel;
-import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
-import de.saxsys.mvvmfx.ViewTuple;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**

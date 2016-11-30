@@ -2,10 +2,8 @@ package com.accenture.mreilaender.model;
 
 import com.accenture.mreilaender.entities.Person;
 import com.accenture.mreilaender.model.groupbuilder.AbstractGroupGenerator;
-import com.accenture.mreilaender.model.groupbuilder.FixedGroupSizeGenerator;
 import com.accenture.mreilaender.model.tabPane.PersonTableModel;
 import com.accenture.mreilaender.view.GroupView;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.ViewTuple;
@@ -13,7 +11,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
