@@ -3,7 +3,6 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.accenture.mreilaender.view.TabView">
